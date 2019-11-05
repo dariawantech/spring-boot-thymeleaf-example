@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title th:utext="${title}" />
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    </head>
+    <body>
+        <h1 th:utext="${title}" />
+        <a th:href="@{/contacts}">Contact List</a>  
+        <br/><br/>
+        <div>© dariawan.com</div>
+    </body>
+</html>

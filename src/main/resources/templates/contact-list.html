@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Contact List</title>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    </head>
+    <body>
+        <h1>Contact List</h1>
+        
+        <div>
+            <nobr>
+                <a href="/contacts/add">Add Contact</a> |
+                <a href="/">Back to Index</a>
+            </nobr>
+        </div>
+        <br/><br/>
+        <div>
+            <table border="1">
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Edit</th>
+                </tr>
+                <tr th:each ="contact : ${contacts}">
+                    <td><a th:href="${'contacts/' + contact.id}" th:utext="${contact.id}">...</a></td>
+                    <td><a th:href="${'contacts/' + contact.id}" th:utext="${contact.name}">...</a></td>
+                    <td th:utext="${contact.phone}">...</td>
+                    <td th:utext="${contact.email}">...</td>
+                    <td><a th:href="${'contacts/' + contact.id + '/edit'}">Edit</a></td>
+                </tr>
+            </table>          
+        </div>
+        <br/><br/>
+        <div>
+            <nobr>
+                <span th:if="${hasPrev}"><a th:href="${'contacts?page=' + prev}">Prev</a>&nbsp;&nbsp;&nbsp;</span> 
+                <span th:if="${hasNext}"><a th:href="${'contacts?page=' + next}">Next</a></span>
+            </nobr>
+        </div>
+    </body>
+</html>
