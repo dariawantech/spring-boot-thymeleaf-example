@@ -106,7 +106,7 @@ public class ContactController {
         model.addAttribute("contact", contact);
         return "contact-edit";
     }
-    
+
     @PostMapping(value = {"/contacts/{contactId}/edit"})
     public String updateContact(Model model,
             @PathVariable long contactId,
@@ -139,7 +139,7 @@ public class ContactController {
         model.addAttribute("contact", contact);
         return "contact";
     }
-    
+
     @PostMapping(value = {"/contacts/{contactId}/delete"})
     public String deleteContactById(
             Model model, @PathVariable long contactId) {
