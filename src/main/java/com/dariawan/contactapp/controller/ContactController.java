@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -86,7 +85,7 @@ public class ContactController {
             return "redirect:/contacts/" + String.valueOf(newContact.getId());
         } catch (ResourceAlreadyExistsException | BadResourceException ex) {
             // log exception first, 
-            // then return Bad Request (400) or Conflict (409)
+            // then show error
             errorMessage = ex.getMessage();            
         }
         logger.error(errorMessage);
@@ -118,7 +117,7 @@ public class ContactController {
             return "redirect:/contacts/" + String.valueOf(contact.getId());
         } catch (ResourceNotFoundException | BadResourceException ex) {
             // log exception first, 
-            // then return Bad Request (400) or Not Found (404)
+            // then show error
             errorMessage = ex.getMessage();
         }
         logger.error(errorMessage);
