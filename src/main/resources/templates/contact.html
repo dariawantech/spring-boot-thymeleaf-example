@@ -7,7 +7,7 @@
     </head>
     <body>
         <h1>View Contact</h1>
-        <a href="/contacts">Back to Contact List</a>
+        <a th:href="@{/contacts}">Back to Contact List</a>
         <br/><br/>
         <div th:if="${contact}">
             <table border="0">
@@ -59,8 +59,8 @@
             </table>
             <br/><br/>
             <div th:if="not ${allowDelete}">
-                <a th:href="${'/contacts/' + contact.id + '/edit'}">Edit</a> |
-                <a th:href="${'/contacts/' + contact.id + '/delete'}">Delete</a>
+                <a th:href="@{/contacts/{contactId}/edit(contactId=${contact.id})}">Edit</a> |
+                <a th:href="@{/contacts/{contactId}/delete(contactId=${contact.id})}">Delete</a>
             </div>
             <form th:if="${allowDelete}" th:action="@{/contacts/{contactId}/delete(contactId=${contact.id})}" method="POST">
                 Delete this contact? <input type="submit" th:value="Yes" />

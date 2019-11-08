@@ -10,8 +10,8 @@
         
         <div>
             <nobr>
-                <a href="/contacts/add">Add Contact</a> |
-                <a href="/">Back to Index</a>
+                <a th:href="@{/contacts/add}">Add Contact</a> |
+                <a th:href="@{/}">Back to Index</a>
             </nobr>
         </div>
         <br/><br/>
@@ -25,19 +25,19 @@
                     <th>Edit</th>
                 </tr>
                 <tr th:each ="contact : ${contacts}">
-                    <td><a th:href="${'contacts/' + contact.id}" th:utext="${contact.id}">...</a></td>
-                    <td><a th:href="${'contacts/' + contact.id}" th:utext="${contact.name}">...</a></td>
+                    <td><a th:href="@{/contacts/{contactId}(contactId=${contact.id})}" th:utext="${contact.id}">...</a></td>
+                    <td><a th:href="@{/contacts/{contactId}(contactId=${contact.id})}" th:utext="${contact.name}">...</a></td>
                     <td th:utext="${contact.phone}">...</td>
                     <td th:utext="${contact.email}">...</td>
-                    <td><a th:href="${'contacts/' + contact.id + '/edit'}">Edit</a></td>
+                    <td><a th:href="@{/contacts/{contactId}/edit(contactId=${contact.id})}">Edit</a></td>
                 </tr>
             </table>          
         </div>
         <br/><br/>
         <div>
             <nobr>
-                <span th:if="${hasPrev}"><a th:href="${'contacts?page=' + prev}">Prev</a>&nbsp;&nbsp;&nbsp;</span> 
-                <span th:if="${hasNext}"><a th:href="${'contacts?page=' + next}">Next</a></span>
+                <span th:if="${hasPrev}"><a th:href="@{/contacts?page={prev}(prev=${prev})}">Prev</a>&nbsp;&nbsp;&nbsp;</span> 
+                <span th:if="${hasNext}"><a th:href="@{/contacts?page={next}(next=${next})}">Next</a></span>
             </nobr>
         </div>
     </body>
