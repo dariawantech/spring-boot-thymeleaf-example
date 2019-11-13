@@ -1,8 +1,6 @@
 package com.dariawan.contactapp.controller;
 
 import com.dariawan.contactapp.domain.Contact;
-import com.dariawan.contactapp.exception.BadResourceException;
-import com.dariawan.contactapp.exception.ResourceAlreadyExistsException;
 import com.dariawan.contactapp.exception.ResourceNotFoundException;
 import com.dariawan.contactapp.service.ContactService;
 import java.util.List;
@@ -33,7 +31,6 @@ public class ContactController {
 
     @GetMapping(value = {"/", "/index"})
     public String index(Model model) {
-
         model.addAttribute("title", title);
         return "index";
     }
@@ -41,8 +38,7 @@ public class ContactController {
     @GetMapping(value = "/contacts")
     public String getContacts(Model model,
             @RequestParam(value = "page", defaultValue = "1") int pageNumber) {
-        List<Contact> contacts;
-        contacts = contactService.findAll(pageNumber, ROW_PER_PAGE);
+        List<Contact> contacts = contactService.findAll(pageNumber, ROW_PER_PAGE);
 
         long count = contactService.count();
         boolean hasPrev = pageNumber > 1;
@@ -79,18 +75,20 @@ public class ContactController {
     @PostMapping(value = "/contacts/add")
     public String addContact(Model model,
             @ModelAttribute("contact") Contact contact) {        
-        String errorMessage;
         try {
             Contact newContact = contactService.save(contact);
             return "redirect:/contacts/" + String.valueOf(newContact.getId());
-        } catch (ResourceAlreadyExistsException | BadResourceException ex) {
+        } catch (Exception ex) {
             // log exception first, 
             // then show error
-            errorMessage = ex.getMessage();            
-        }
-        logger.error(errorMessage);
-        model.addAttribute("errorMessage", errorMessage);
-        return "contact-edit";
+            String errorMessage = ex.getMessage();
+            logger.error(errorMessage);
+            model.addAttribute("errorMessage", errorMessage);
+
+            //model.addAttribute("contact", contact);
+            model.addAttribute("add", true);
+            return "contact-edit";
+        }        
     }
 
     @GetMapping(value = {"/contacts/{contactId}/edit"})
@@ -109,20 +107,21 @@ public class ContactController {
     @PostMapping(value = {"/contacts/{contactId}/edit"})
     public String updateContact(Model model,
             @PathVariable long contactId,
-            @ModelAttribute("contact") Contact contact) {
-        String errorMessage;
+            @ModelAttribute("contact") Contact contact) {        
         try {
             contact.setId(contactId);
             contactService.update(contact);
             return "redirect:/contacts/" + String.valueOf(contact.getId());
-        } catch (ResourceNotFoundException | BadResourceException ex) {
+        } catch (Exception ex) {
             // log exception first, 
             // then show error
-            errorMessage = ex.getMessage();
+            String errorMessage = ex.getMessage();
+            logger.error(errorMessage);
+            model.addAttribute("errorMessage", errorMessage);
+
+             model.addAttribute("add", false);
+            return "contact-edit";
         }
-        logger.error(errorMessage);
-        model.addAttribute("errorMessage", errorMessage);
-        return "contact-edit";
     }
 
     @GetMapping(value = {"/contacts/{contactId}/delete"})
